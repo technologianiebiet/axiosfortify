@@ -1933,8 +1933,6 @@
   // Standard browser envs have full support of the APIs needed to test
   // whether the request URL is of the same origin as current location.
   function standardBrowserEnv() {
-    var msie = /(msie|trident)/i.test(navigator.userAgent);
-    var urlParsingNode = document.createElement('a');
     var originURL;
 
     /**
@@ -1944,13 +1942,7 @@
     * @returns {Object}
     */
     function resolveURL(url) {
-      var href = url;
-      if (msie) {
-        // IE needs attribute set twice to normalize properties
-        urlParsingNode.setAttribute('href', href);
-        href = urlParsingNode.href;
-      }
-      urlParsingNode.setAttribute('href', href);
+      var urlParsingNode = new URL(url);
 
       // urlParsingNode provides the UrlUtils interface - http://url.spec.whatwg.org/#urlutils
       return {

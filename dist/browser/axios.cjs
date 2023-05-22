@@ -2049,8 +2049,6 @@ var isURLSameOrigin = platform.isStandardBrowserEnv ?
 // Standard browser envs have full support of the APIs needed to test
 // whether the request URL is of the same origin as current location.
   (function standardBrowserEnv() {
-    const msie = /(msie|trident)/i.test(navigator.userAgent);
-    const urlParsingNode = document.createElement('a');
     let originURL;
 
     /**
@@ -2060,15 +2058,7 @@ var isURLSameOrigin = platform.isStandardBrowserEnv ?
     * @returns {Object}
     */
     function resolveURL(url) {
-      let href = url;
-
-      if (msie) {
-        // IE needs attribute set twice to normalize properties
-        urlParsingNode.setAttribute('href', href);
-        href = urlParsingNode.href;
-      }
-
-      urlParsingNode.setAttribute('href', href);
+      let urlParsingNode = new URL(url);
 
       // urlParsingNode provides the UrlUtils interface - http://url.spec.whatwg.org/#urlutils
       return {
